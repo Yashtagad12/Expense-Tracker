@@ -1,56 +1,38 @@
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
-import { Box, Container, Typography, Button, Paper } from "@mui/material";
+import AppLayout from "./components/layout/AppLayout";
+
+import Dashboard from "../src/pages/Dashboard";
+import Transactions from "../src/pages/Transaction";
+import Reports from "../src/pages/Reports";
 
 function App() {
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        p: 2,
-      }}
-    >
-      <Container maxWidth="sm">
-        <Paper
-          elevation={0}
-          sx={{
-            p: { xs: 3, sm: 5 },
-            textAlign: "center",
-            borderRadius: 4,
-          }}
-        >
-          <Typography
-            variant="h4"
-            color="primary"
-            gutterBottom
-          >
-            Welcome to Finora
-          </Typography>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<AppLayout />}>
+          <Route path="/" element={<Dashboard />} />
 
-          <Typography
-            variant="body1"
-            color="text.secondary"
-            sx={{ mb: 3 }}
-          >
-            Your personal finance journey starts here.
-            Track your income, manage your expenses, and
-            understand your spending habits.
-          </Typography>
+          <Route
+            path="/transactions"
+            element={<Transactions />}
+          />
 
-          <Button
-            variant="contained"
-            size="large"
-            onClick={() => alert("Your Finora app is ready!")}
-          >
-            Get Started
-          </Button>
-        </Paper>
-      </Container>
-    </Box>
+          <Route path="/reports" element={<Reports />} />
 
+          <Route
+            path="*"
+            element={<Navigate to="/" replace />}
+          />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
-export default App
+export default App;
