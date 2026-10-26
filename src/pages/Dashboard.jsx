@@ -1,14 +1,81 @@
 import {
     Box,
     Button,
-    Paper,
+    Grid,
     Typography,
 } from "@mui/material";
 
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
 import TrendingUpRoundedIcon from "@mui/icons-material/TrendingUpRounded";
+import TrendingDownRoundedIcon from "@mui/icons-material/TrendingDownRounded";
+import SavingsRoundedIcon from "@mui/icons-material/SavingsRounded";
+
+import SummaryCard from "../components/dashboard/SummaryCard";
+import ExpenseChart from "../components/dashboard/ExpenseChart";
+import RecentTransactions from "../components/dashboard/RecentTransactions";
+
+import initialTransactions from "../data/initialTransactions";
+
+function formatRupees(value) {
+    return `₹${Number(value).toLocaleString("en-IN")}`;
+}
 
 function Dashboard() {
+    const totalIncome = initialTransactions
+        .filter((transaction) => transaction.type === "income")
+        .reduce((total, transaction) => total + transaction.amount, 0);
+
+    const totalExpenses = initialTransactions
+        .filter((transaction) => transaction.type === "expense")
+        .reduce((total, transaction) => total + transaction.amount, 0);
+
+    const totalBalance = totalIncome - totalExpenses;
+
+    const savingsRate =
+        totalIncome > 0
+            ? (totalBalance / totalIncome) * 100
+            : 0;
+
+    const summaryCards = [
+        {
+            title: "Total Balance",
+            value: formatRupees(totalBalance),
+            description: "Income minus expenses",
+            icon: <AccountBalanceWalletRoundedIcon />,
+            color: "primary",
+        },
+        {
+            title: "Total Income",
+            value: formatRupees(totalIncome),
+            description: "Money received",
+            icon: <TrendingUpRoundedIcon />,
+            color: "success",
+            trend: {
+                direction: "up",
+                value: "Income",
+            },
+        },
+        {
+            title: "Total Expenses",
+            value: formatRupees(totalExpenses),
+            description: "Money spent",
+            icon: <TrendingDownRoundedIcon />,
+            color: "error",
+            trend: {
+                direction: "down",
+                value: "Expenses",
+            },
+        },
+        {
+            title: "Savings Rate",
+            value: `${savingsRate.toFixed(1)}%`,
+            description: "Of total income retained",
+            icon: <SavingsRoundedIcon />,
+            color: "primary",
+        },
+    ];
+
     return (
         <Box>
             {/* Page introduction */}
@@ -34,14 +101,14 @@ function Dashboard() {
                         variant="body2"
                         color="text.secondary"
                     >
-                        Keep track of your money, one step at a time.
+                        Here's an overview of your financial activity.
                     </Typography>
                 </Box>
 
                 <Button
                     variant="contained"
                     startIcon={<AddRoundedIcon />}
-                    onClick={() => alert("Transaction form coming soon!")}
+                    onClick={() => alert("Transaction form coming in Part 4!")}
                     sx={{
                         alignSelf: { xs: "flex-start", sm: "auto" },
                         borderRadius: 2.5,
@@ -53,88 +120,29 @@ function Dashboard() {
                 </Button>
             </Box>
 
-            {/* Welcome panel */}
-            <Paper
-                elevation={0}
-                sx={{
-                    p: { xs: 3, sm: 4 },
-                    borderRadius: 4,
-                    background:
-                        "linear-gradient(135deg, #E3F5EC 0%, #F5FBF7 100%)",
-                    border: "1px solid #DDEFE4",
-                    overflow: "hidden",
-                    position: "relative",
-                }}
+            {/* Financial summary cards */}
+            <Grid
+                container
+                spacing={2}
+                sx={{ mb: 3 }}
             >
-                <Box
-                    sx={{
-                        maxWidth: 520,
-                        position: "relative",
-                        zIndex: 1,
-                    }}
-                >
-                    <Box
-                        sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1,
-                            mb: 2,
-                            color: "primary.dark",
-                        }}
+                {summaryCards.map((card) => (
+                    <Grid
+                        key={card.title}
+                        size={{ xs: 12, sm: 6, lg: 3 }}
                     >
-                        <TrendingUpRoundedIcon fontSize="small" />
+                        <SummaryCard {...card} />
+                    </Grid>
+                ))}
+            </Grid>
 
-                        <Typography
-                            variant="subtitle2"
-                            sx={{ fontWeight: 700 }}
-                        >
-                            A smarter way to manage money
-                        </Typography>
-                    </Box>
-
-                    <Typography
-                        variant="h4"
-                        sx={{
-                            fontSize: { xs: "1.65rem", sm: "2.25rem" },
-                            lineHeight: 1.25,
-                            mb: 2,
-                        }}
-                    >
-                        Make every rupee count.
-                    </Typography>
-
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{
-                            lineHeight: 1.8,
-                            maxWidth: 460,
-                        }}
-                    >
-                        Understand your spending, organize your
-                        transactions, and build healthier financial
-                        habits with your personal finance dashboard.
-                    </Typography>
-                </Box>
-            </Paper>
-
-            {/* Placeholder for upcoming dashboard components */}
-            <Box sx={{ mt: 4 }}>
-                <Typography
-                    variant="h6"
-                    sx={{ mb: 1 }}
-                >
-                    Your financial overview
-                </Typography>
-
-                <Typography
-                    variant="body2"
-                    color="text.secondary"
-                >
-                    Your balance, income, expenses, and financial
-                    charts will appear here in Part 3.
-                </Typography>
+            {/* Monthly financial chart */}
+            <Box sx={{ mb: 3 }}>
+                <ExpenseChart />
             </Box>
+
+            {/* Recent transaction activity */}
+            <RecentTransactions transactions={initialTransactions} />
         </Box>
     );
 }
