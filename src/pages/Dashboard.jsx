@@ -11,7 +11,7 @@ import TrendingUpRoundedIcon from "@mui/icons-material/TrendingUpRounded";
 import TrendingDownRoundedIcon from "@mui/icons-material/TrendingDownRounded";
 import SavingsRoundedIcon from "@mui/icons-material/SavingsRounded";
 
-import SummaryCard from "../components/dashboard/SummaryCard";
+import SummaryCard from "../components/dashboard/SummaryCards";
 import ExpenseChart from "../components/dashboard/ExpenseChart";
 import RecentTransactions from "../components/dashboard/RecentTransactions";
 
