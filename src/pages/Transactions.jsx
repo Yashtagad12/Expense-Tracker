@@ -396,214 +396,214 @@ function Transactions() {
                 {transactions.length}{" "}
                 {transactions.length === 1 ? "transaction" : "transactions"} in total
             </Typography>
-        {/* Add/Edit Transaction Dialog */}
-<Dialog
-    open={dialogOpen}
-    onClose={handleCloseDialog}
-    fullWidth
-    maxWidth="sm"
->
-    <Box component="form" onSubmit={handleSubmit} noValidate>
-        <DialogTitle fontWeight={700}>
-            {editingTransaction ? "Edit Transaction" : "Add Transaction"}
-        </DialogTitle>
-
-        <DialogContent dividers>
-            <Grid container spacing={2} sx={{ pt: 1 }}>
-                {/* Transaction title */}
-                <Grid size={{ xs: 12 }}>
-                    <TextField
-                        name="title"
-                        label="Transaction Title"
-                        placeholder="e.g. Monthly Salary"
-                        value={formData.title}
-                        onChange={handleChange}
-                        error={Boolean(errors.title)}
-                        helperText={errors.title}
-                        fullWidth
-                        required
-                    />
-                </Grid>
-
-                {/* Transaction amount */}
-                <Grid size={{ xs: 12, sm: 6 }}>
-                    <TextField
-                        name="amount"
-                        label="Amount (₹)"
-                        type="number"
-                        value={formData.amount}
-                        onChange={handleChange}
-                        error={Boolean(errors.amount)}
-                        helperText={errors.amount}
-                        fullWidth
-                        required
-                        slotProps={{
-                            htmlInput: {
-                                min: 0,
-                                step: "0.01",
-                            },
-                        }}
-                    />
-                </Grid>
-
-                {/* Income or expense */}
-                <Grid size={{ xs: 12, sm: 6 }}>
-                    <FormControl fullWidth>
-                        <InputLabel id="transaction-type-label">
-                            Transaction Type
-                        </InputLabel>
-
-                        <Select
-                            labelId="transaction-type-label"
-                            name="type"
-                            label="Transaction Type"
-                            value={formData.type}
-                            onChange={handleChange}
-                        >
-                            <MenuItem value="income">Income</MenuItem>
-                            <MenuItem value="expense">Expense</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
-
-                {/* Transaction category */}
-                <Grid size={{ xs: 12, sm: 6 }}>
-                    <FormControl
-                        fullWidth
-                        required
-                        error={Boolean(errors.category)}
-                    >
-                        <InputLabel id="transaction-category-label">
-                            Category
-                        </InputLabel>
-
-                        <Select
-                            labelId="transaction-category-label"
-                            name="category"
-                            label="Category"
-                            value={formData.category}
-                            onChange={handleChange}
-                        >
-                            {categories.map((category) => (
-                                <MenuItem key={category} value={category}>
-                                    {category}
-                                </MenuItem>
-                            ))}
-                        </Select>
-
-                        {errors.category && (
-                            <Typography
-                                variant="caption"
-                                color="error"
-                                sx={{ mt: 0.5, ml: 1.75 }}
-                            >
-                                {errors.category}
-                            </Typography>
-                        )}
-                    </FormControl>
-                </Grid>
-
-                {/* Transaction date */}
-                <Grid size={{ xs: 12, sm: 6 }}>
-                    <TextField
-                        name="date"
-                        label="Transaction Date"
-                        type="date"
-                        value={formData.date}
-                        onChange={handleChange}
-                        error={Boolean(errors.date)}
-                        helperText={errors.date}
-                        fullWidth
-                        required
-                        slotProps={{
-                            inputLabel: {
-                                shrink: true,
-                            },
-                        }}
-                    />
-                </Grid>
-            </Grid>
-        </DialogContent>
-
-        <DialogActions sx={{ p: 2 }}>
-            <Button onClick={handleCloseDialog} color="inherit">
-                Cancel
-            </Button>
-
-            <Button type="submit" variant="contained">
-                {editingTransaction ? "Save Changes" : "Add Transaction"}
-            </Button>
-        </DialogActions>
-    </Box>
-</Dialog>
-
-{/* Delete Confirmation Dialog */}
-<Dialog
-    open={Boolean(deleteTarget)}
-    onClose={() => setDeleteTarget(null)}
-    fullWidth
-    maxWidth="xs"
->
-    <DialogTitle fontWeight={700}>
-        Delete Transaction?
-    </DialogTitle>
-
-    <DialogContent>
-        <Typography color="text.secondary">
-            Are you sure you want to delete{" "}
-            <Box
-                component="span"
-                sx={{ fontWeight: 700, color: "text.primary" }}
+            {/* Add/Edit Transaction Dialog */}
+            <Dialog
+                open={dialogOpen}
+                onClose={handleCloseDialog}
+                fullWidth
+                maxWidth="sm"
             >
-                {deleteTarget?.title}
-            </Box>
-            ? This action cannot be undone.
-        </Typography>
-    </DialogContent>
+                <Box component="form" onSubmit={handleSubmit} noValidate>
+                    <DialogTitle fontWeight={700}>
+                        {editingTransaction ? "Edit Transaction" : "Add Transaction"}
+                    </DialogTitle>
 
-    <DialogActions sx={{ p: 2 }}>
-        <Button onClick={() => setDeleteTarget(null)} color="inherit">
-            Cancel
-        </Button>
+                    <DialogContent dividers>
+                        <Grid container spacing={2} sx={{ pt: 1 }}>
+                            {/* Transaction title */}
+                            <Grid size={{ xs: 12 }}>
+                                <TextField
+                                    name="title"
+                                    label="Transaction Title"
+                                    placeholder="e.g. Monthly Salary"
+                                    value={formData.title}
+                                    onChange={handleChange}
+                                    error={Boolean(errors.title)}
+                                    helperText={errors.title}
+                                    fullWidth
+                                    required
+                                />
+                            </Grid>
 
-        <Button
-            variant="contained"
-            color="error"
-            onClick={handleConfirmDelete}
-        >
-            Delete
-        </Button>
-    </DialogActions>
-</Dialog>
+                            {/* Transaction amount */}
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                                <TextField
+                                    name="amount"
+                                    label="Amount (₹)"
+                                    type="number"
+                                    value={formData.amount}
+                                    onChange={handleChange}
+                                    error={Boolean(errors.amount)}
+                                    helperText={errors.amount}
+                                    fullWidth
+                                    required
+                                    slotProps={{
+                                        htmlInput: {
+                                            min: 0,
+                                            step: "0.01",
+                                        },
+                                    }}
+                                />
+                            </Grid>
 
-{/* Success and error notifications */}
-<Snackbar
-    open={notification.open}
-    autoHideDuration={3000}
-    onClose={() =>
-        setNotification((previous) => ({
-            ...previous,
-            open: false,
-        }))
-    }
-    anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "right",
-    }}
->
-    <Alert
-        severity={notification.severity}
-        variant="filled"
-        onClose={() =>
-            setNotification((previous) => ({
-                ...previous,
-                open: false,
-            }))
-        }
-    >
-        {notification.message}
-    </Alert>
-</Snackbar>
+                            {/* Income or expense */}
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="transaction-type-label">
+                                        Transaction Type
+                                    </InputLabel>
+
+                                    <Select
+                                        labelId="transaction-type-label"
+                                        name="type"
+                                        label="Transaction Type"
+                                        value={formData.type}
+                                        onChange={handleChange}
+                                    >
+                                        <MenuItem value="income">Income</MenuItem>
+                                        <MenuItem value="expense">Expense</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+
+                            {/* Transaction category */}
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                                <FormControl
+                                    fullWidth
+                                    required
+                                    error={Boolean(errors.category)}
+                                >
+                                    <InputLabel id="transaction-category-label">
+                                        Category
+                                    </InputLabel>
+
+                                    <Select
+                                        labelId="transaction-category-label"
+                                        name="category"
+                                        label="Category"
+                                        value={formData.category}
+                                        onChange={handleChange}
+                                    >
+                                        {categories.map((category) => (
+                                            <MenuItem key={category} value={category}>
+                                                {category}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+
+                                    {errors.category && (
+                                        <Typography
+                                            variant="caption"
+                                            color="error"
+                                            sx={{ mt: 0.5, ml: 1.75 }}
+                                        >
+                                            {errors.category}
+                                        </Typography>
+                                    )}
+                                </FormControl>
+                            </Grid>
+
+                            {/* Transaction date */}
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                                <TextField
+                                    name="date"
+                                    label="Transaction Date"
+                                    type="date"
+                                    value={formData.date}
+                                    onChange={handleChange}
+                                    error={Boolean(errors.date)}
+                                    helperText={errors.date}
+                                    fullWidth
+                                    required
+                                    slotProps={{
+                                        inputLabel: {
+                                            shrink: true,
+                                        },
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
+                    </DialogContent>
+
+                    <DialogActions sx={{ p: 2 }}>
+                        <Button onClick={handleCloseDialog} color="inherit">
+                            Cancel
+                        </Button>
+
+                        <Button type="submit" variant="contained">
+                            {editingTransaction ? "Save Changes" : "Add Transaction"}
+                        </Button>
+                    </DialogActions>
+                </Box>
+            </Dialog>
+
+            {/* Delete Confirmation Dialog */}
+            <Dialog
+                open={Boolean(deleteTarget)}
+                onClose={() => setDeleteTarget(null)}
+                fullWidth
+                maxWidth="xs"
+            >
+                <DialogTitle fontWeight={700}>
+                    Delete Transaction?
+                </DialogTitle>
+
+                <DialogContent>
+                    <Typography color="text.secondary">
+                        Are you sure you want to delete{" "}
+                        <Box
+                            component="span"
+                            sx={{ fontWeight: 700, color: "text.primary" }}
+                        >
+                            {deleteTarget?.title}
+                        </Box>
+                        ? This action cannot be undone.
+                    </Typography>
+                </DialogContent>
+
+                <DialogActions sx={{ p: 2 }}>
+                    <Button onClick={() => setDeleteTarget(null)} color="inherit">
+                        Cancel
+                    </Button>
+
+                    <Button
+                        variant="contained"
+                        color="error"
+                        onClick={handleConfirmDelete}
+                    >
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            {/* Success and error notifications */}
+            <Snackbar
+                open={notification.open}
+                autoHideDuration={3000}
+                onClose={() =>
+                    setNotification((previous) => ({
+                        ...previous,
+                        open: false,
+                    }))
+                }
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                }}
+            >
+                <Alert
+                    severity={notification.severity}
+                    variant="filled"
+                    onClose={() =>
+                        setNotification((previous) => ({
+                            ...previous,
+                            open: false,
+                        }))
+                    }
+                >
+                    {notification.message}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 }
