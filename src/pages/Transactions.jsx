@@ -26,6 +26,7 @@ import {
     TableRow,
     TextField,
     Typography,
+    InputAdornment,
 } from "@mui/material";
 
 import {
@@ -33,6 +34,9 @@ import {
     DeleteOutlineOutlined,
     EditOutlined,
     ReceiptLongOutlined,
+    Search,
+    FilterList,
+    RestartAlt,
 } from "@mui/icons-material";
 
 import { useTransactions } from "../context/TransactionContext";
@@ -82,6 +86,11 @@ function Transactions() {
         message: "",
         severity: "success",
     });
+
+    const [searchTerm, setSearchTerm] = useState("");
+    const [typeFilter, setTypeFilter] = useState("all");
+    const [categoryFilter, setCategoryFilter] = useState("all");
+    const [sortBy, setSortBy] = useState("newest");
 
     // Open the dialog for adding a transaction.
     const handleOpenAdd = () => {
@@ -223,9 +232,39 @@ function Transactions() {
     };
 
     // Sort transactions from newest to oldest.
-    const sortedTransactions = [...transactions].sort((a, b) =>
-        b.date.localeCompare(a.date)
-    );
+    const filteredTransactions = transactions.filter((transaction) => {
+        const search = searchTerm.trim().toLowerCase();
+
+        const matchesSearch =
+            transaction.title.toLowerCase().includes(search) ||
+            transaction.category.toLowerCase().includes(search);
+
+        const matchesType =
+            typeFilter === "all" || transaction.type === typeFilter;
+
+        const matchesCategory =
+            categoryFilter === "all" ||
+            transaction.category === categoryFilter;
+
+        return matchesSearch && matchesType && matchesCategory;
+    });
+
+    const sortedTransactions = [...filteredTransactions].sort((a, b) => {
+        switch (sortBy) {
+            case "oldest":
+                return a.date.localeCompare(b.date);
+
+            case "amount-high":
+                return b.amount - a.amount;
+
+            case "amount-low":
+                return a.amount - b.amount;
+
+            case "newest":
+            default:
+                return b.date.localeCompare(a.date);
+        }
+    });
 
     return (
         <Box>
@@ -257,6 +296,138 @@ function Transactions() {
                 </Button>
             </Stack>
 
+            {/* Search, filters, and sorting */}
+            <Paper
+                elevation={0}
+                sx={{
+                    p: 2,
+                    mb: 3,
+                    border: "1px solid",
+                    borderColor: "divider",
+                    borderRadius: 3,
+                }}
+            >
+                <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={1}
+                    sx={{ mb: 2 }}
+                >
+                    <FilterList color="action" />
+
+                    <Typography fontWeight={600}>
+                        Search and Filters
+                    </Typography>
+                </Stack>
+
+                <Grid container spacing={2}>
+                    {/* Search by title or category */}
+                    <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                        <TextField
+                            fullWidth
+                            size="small"
+                            label="Search transactions"
+                            placeholder="Search title or category"
+                            value={searchTerm}
+                            onChange={(event) => setSearchTerm(event.target.value)}
+                            slotProps={{
+                                input: {
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <Search fontSize="small" />
+                                        </InputAdornment>
+                                    ),
+                                },
+                            }}
+                        />
+                    </Grid>
+
+                    {/* Filter by transaction type */}
+                    <Grid size={{ xs: 12, sm: 6, lg: 2 }}>
+                        <FormControl fullWidth size="small">
+                            <InputLabel id="type-filter-label">
+                                Type
+                            </InputLabel>
+
+                            <Select
+                                labelId="type-filter-label"
+                                label="Type"
+                                value={typeFilter}
+                                onChange={(event) => setTypeFilter(event.target.value)}
+                            >
+                                <MenuItem value="all">All Types</MenuItem>
+                                <MenuItem value="income">Income</MenuItem>
+                                <MenuItem value="expense">Expense</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    {/* Filter by category */}
+                    <Grid size={{ xs: 12, sm: 6, lg: 2 }}>
+                        <FormControl fullWidth size="small">
+                            <InputLabel id="category-filter-label">
+                                Category
+                            </InputLabel>
+
+                            <Select
+                                labelId="category-filter-label"
+                                label="Category"
+                                value={categoryFilter}
+                                onChange={(event) => setCategoryFilter(event.target.value)}
+                            >
+                                <MenuItem value="all">All Categories</MenuItem>
+
+                                {categories.map((category) => (
+                                    <MenuItem key={category} value={category}>
+                                        {category}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    {/* Sort transactions */}
+                    <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                        <FormControl fullWidth size="small">
+                            <InputLabel id="sort-filter-label">
+                                Sort By
+                            </InputLabel>
+
+                            <Select
+                                labelId="sort-filter-label"
+                                label="Sort By"
+                                value={sortBy}
+                                onChange={(event) => setSortBy(event.target.value)}
+                            >
+                                <MenuItem value="newest">Newest First</MenuItem>
+                                <MenuItem value="oldest">Oldest First</MenuItem>
+                                <MenuItem value="amount-high">Amount: High to Low</MenuItem>
+                                <MenuItem value="amount-low">Amount: Low to High</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    {/* Clear all filters */}
+                    <Grid size={{ xs: 12, lg: 2 }}>
+                        <Button
+                            fullWidth
+                            variant="outlined"
+                            color="inherit"
+                            startIcon={<RestartAlt />}
+                            onClick={() => {
+                                setSearchTerm("");
+                                setTypeFilter("all");
+                                setCategoryFilter("all");
+                                setSortBy("newest");
+                            }}
+                            sx={{ height: 40 }}
+                        >
+                            Clear Filters
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Paper>
+
             {/* Transactions table */}
             <TableContainer
                 component={Paper}
@@ -283,21 +454,21 @@ function Transactions() {
                         {sortedTransactions.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={6}>
-                                    <Stack
-                                        alignItems="center"
-                                        spacing={1}
-                                        sx={{ py: 6 }}
-                                    >
+                                    <Stack alignItems="center" spacing={1} sx={{ py: 6 }}>
                                         <ReceiptLongOutlined
                                             sx={{ fontSize: 42, color: "text.secondary" }}
                                         />
 
                                         <Typography fontWeight={600}>
-                                            No transactions yet
+                                            {transactions.length === 0
+                                                ? "No transactions yet"
+                                                : "No matching transactions"}
                                         </Typography>
 
                                         <Typography variant="body2" color="text.secondary">
-                                            Add your first transaction to get started.
+                                            {transactions.length === 0
+                                                ? "Add your first transaction to get started."
+                                                : "Try changing your search or filters."}
                                         </Typography>
                                     </Stack>
                                 </TableCell>
@@ -393,8 +564,10 @@ function Transactions() {
                 color="text.secondary"
                 sx={{ mt: 2 }}
             >
-                {transactions.length}{" "}
-                {transactions.length === 1 ? "transaction" : "transactions"} in total
+                <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+                    Showing {sortedTransactions.length} of {transactions.length}{" "}
+                    {transactions.length === 1 ? "transaction" : "transactions"}
+                </Typography>
             </Typography>
             {/* Add/Edit Transaction Dialog */}
             <Dialog
