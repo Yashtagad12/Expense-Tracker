@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Box, Button, Grid, Typography } from "@mui/material";
 
 import {
@@ -107,9 +108,10 @@ function Dashboard() {
                 </Box>
 
                 <Button
+                    component={Link}
+                    to="/transactions"
                     variant="contained"
                     startIcon={<Add />}
-                    href="/transactions"
                 >
                     Add Transaction
                 </Button>
