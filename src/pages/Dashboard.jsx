@@ -11,7 +11,7 @@ import {
 
 import { useTransactions } from "../context/TransactionContext";
 
-import SummaryCard from "../components/dashboard/SummaryCard";
+import SummaryCard from "../components/dashboard/SummaryCards";
 import ExpenseChart from "../components/dashboard/ExpenseChart";
 import RecentTransactions from "../components/dashboard/RecentTransactions";
 
