@@ -1,14 +1,39 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import initialTransactions from "../data/initialTransactions";
 
-// Create a context to share transactions across the application.
+const STORAGE_KEY = "finora-transactions";
+
 const TransactionContext = createContext();
 
-// Create a provider that stores and manages transactions.
-export function TransactionProvider({ children }) {
-    const [transactions, setTransactions] = useState(initialTransactions);
+function getInitialTransactions() {
+    try {
+        const savedTransactions = localStorage.getItem(STORAGE_KEY);
+        if (savedTransactions !== null) {
+            const parsedTransactions = JSON.parse(savedTransactions);
 
-    // Add a new transaction to the list.
+            if (Array.isArray(parsedTransactions)) {
+                return parsedTransactions;
+            }
+        }
+
+    } catch (error) {
+        console.error("Unable to load Finora transactions:", error);
+    }
+
+    return initialTransactions;
+}
+
+export function TransactionProvider({ children }) {
+    const [transactions, setTransactions] = useState(getInitialTransactions);
+
+    useEffect(() => {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+        } catch (error) {
+            console.error("Unable to save Finora transactions:", error);
+        }
+    }, [transactions]);
+
     const addTransaction = (transaction) => {
         setTransactions((previousTransactions) => [
             transaction,
@@ -16,7 +41,6 @@ export function TransactionProvider({ children }) {
         ]);
     };
 
-    // Update an existing transaction.
     const updateTransaction = (updatedTransaction) => {
         setTransactions((previousTransactions) =>
             previousTransactions.map((transaction) =>
@@ -27,7 +51,6 @@ export function TransactionProvider({ children }) {
         );
     };
 
-    // Delete a transaction using its ID.
     const deleteTransaction = (transactionId) => {
         setTransactions((previousTransactions) =>
             previousTransactions.filter(
@@ -36,12 +59,16 @@ export function TransactionProvider({ children }) {
         );
     };
 
-    // Make the data and functions available to child components.
+    const resetTransactions = () => {
+        setTransactions(initialTransactions);
+    };
+
     const value = {
         transactions,
         addTransaction,
         updateTransaction,
         deleteTransaction,
+        resetTransactions,
     };
 
     return (
