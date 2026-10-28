@@ -52,6 +52,7 @@ export function TransactionProvider({ children }) {
 }
 
 // A custom hook for accessing the transaction context.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useTransactions() {
     const context = useContext(TransactionContext);
 
