@@ -91,6 +91,7 @@ export function BudgetProvider({ children }) {
     );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useBudgets() {
     const context = useContext(BudgetContext);
 
