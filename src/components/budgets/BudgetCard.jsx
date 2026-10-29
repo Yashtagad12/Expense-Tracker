@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 
 import {
-    DeleteOutline,
+    DeleteOutlineOutlined,
     EditOutlined,
     WarningAmberOutlined,
 } from "@mui/icons-material";
@@ -177,7 +177,7 @@ function BudgetCard({
                         variant="outlined"
                         color="error"
                         size="small"
-                        startIcon={<DeleteOutline />}
+                        startIcon={                        <DeleteOutlineOutlined />}
                         onClick={() => onDelete(budget)}
                     >
                         Delete
