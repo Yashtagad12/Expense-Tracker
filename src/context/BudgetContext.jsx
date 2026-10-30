@@ -2,17 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const STORAGE_KEY = "finora-budgets";
 
-const initialBudgets = [
-    { id: "food", category: "Food", limit: 5000 },
-    { id: "housing", category: "Housing", limit: 12000 },
-    { id: "utilities", category: "Utilities", limit: 3000 },
-    { id: "transport", category: "Transport", limit: 2500 },
-    { id: "shopping", category: "Shopping", limit: 3000 },
-    { id: "healthcare", category: "Healthcare", limit: 2000 },
-    { id: "education", category: "Education", limit: 2000 },
-    { id: "entertainment", category: "Entertainment", limit: 1500 },
-    { id: "other", category: "Other", limit: 2000 },
-];
+const initialBudgets = [];
 
 const BudgetContext = createContext();
 
