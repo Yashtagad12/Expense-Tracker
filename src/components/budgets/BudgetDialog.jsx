@@ -99,7 +99,10 @@ function BudgetDialogForm({
                             error={Boolean(errors.category)}
                             required
                         >
-                            <InputLabel id="budget-category-label">
+                            <InputLabel
+                                id="budget-category-label"
+                                shrink={true}
+                            >
                                 Category
                             </InputLabel>
 
@@ -107,10 +110,6 @@ function BudgetDialogForm({
                                 labelId="budget-category-label"
                                 label="Category"
                                 value={category}
-                                displayEmpty
-                                renderValue={(selected) =>
-                                    selected || "Select a category"
-                                }
                                 disabled={Boolean(editingBudget)}
                                 onChange={(event) => {
                                     setCategory(event.target.value);
@@ -120,9 +119,6 @@ function BudgetDialogForm({
                                     }));
                                 }}
                             >
-                                <MenuItem value="" disabled>
-                                    Select a category
-                                </MenuItem>
                                 {availableCategories.map((item) => (
                                     <MenuItem key={item} value={item}>
                                         {item}
