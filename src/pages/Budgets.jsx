@@ -203,7 +203,6 @@ function Budgets() {
                         variant="contained"
                         startIcon={<Add />}
                         onClick={handleOpenAdd}
-                        disabled={availableCategories.length === 0}
                     >
                         Create Budget
                     </Button>
