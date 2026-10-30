@@ -16,6 +16,7 @@ import ReceiptLongRoundedIcon from "@mui/icons-material/ReceiptLongRounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import { AccountBalanceWalletOutlined } from "@mui/icons-material";
 
 import { NavLink } from "react-router-dom";
 
@@ -37,6 +38,11 @@ const navigationItems = [
         path: "/reports",
         icon: <BarChartRoundedIcon />,
     },
+    {
+        label: "Budgets",
+        path: "/budgets",
+        icon: <AccountBalanceWalletOutlined />,
+    }
 ];
 
 function Sidebar({ mobileOpen, onClose }) {
