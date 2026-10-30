@@ -114,11 +114,8 @@ function Budgets() {
         (budget) => getCategorySpent(budget.category) > budget.limit
     ).length;
 
-    // Categories that do not already have a budget.
-    const availableCategories = expenseCategories.filter(
-        (category) =>
-            !budgets.some((budget) => budget.category === category)
-    );
+    // Use the complete expense-category list in the Create Budget dialog.
+    const availableCategories = [...expenseCategories];
 
     const handleOpenAdd = () => {
         setEditingBudget(null);
