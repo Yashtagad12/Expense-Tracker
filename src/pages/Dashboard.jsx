@@ -128,7 +128,7 @@ function Dashboard() {
 
             {/* Income versus expenses chart */}
             <Box sx={{ mb: 3 }}>
-                <ExpenseChart />
+                <ExpenseChart transactions={transactions} />
             </Box>
 
             {/* Latest transactions */}
