@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography, Paper } from "@mui/material";
 
 import {
     Add,
@@ -22,6 +22,25 @@ function formatRupees(amount) {
 function Dashboard() {
     // Read the latest transactions from the shared context.
     const { transactions } = useTransactions();
+
+    const now = new Date();
+
+    const currentMonth =
+        `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+
+    const currentMonthTransactions = transactions.filter(
+        (transaction) => transaction.date.startsWith(currentMonth)
+    );
+
+    const monthlyIncome = currentMonthTransactions
+        .filter((transaction) => transaction.type === "income")
+        .reduce((total, transaction) => total + transaction.amount, 0);
+
+    const monthlyExpenses = currentMonthTransactions
+        .filter((transaction) => transaction.type === "expense")
+        .reduce((total, transaction) => total + transaction.amount, 0);
+
+    const monthlySavings = monthlyIncome - monthlyExpenses;
 
     // Calculate total income.
     const totalIncome = transactions
@@ -125,6 +144,82 @@ function Dashboard() {
                     </Grid>
                 ))}
             </Grid>
+
+            <Paper
+                elevation={0}
+                sx={{
+                    p: { xs: 2, sm: 3 },
+                    mb: 3,
+                    border: "1px solid",
+                    borderColor: "divider",
+                    borderRadius: 3,
+                }}
+            >
+                <Typography variant="h6" fontWeight={700}>
+                    This Month's Financial Summary
+                </Typography>
+
+                <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mt: 0.5, mb: 3 }}
+                >
+                    {new Date(`${currentMonth}-15T12:00:00`).toLocaleDateString(
+                        "en-IN",
+                        {
+                            month: "long",
+                            year: "numeric",
+                        }
+                    )}
+                </Typography>
+
+                <Grid container spacing={2}>
+                    <Grid size={{ xs: 12, sm: 4 }}>
+                        <Typography variant="body2" color="text.secondary">
+                            Monthly Income
+                        </Typography>
+
+                        <Typography
+                            variant="h5"
+                            fontWeight={700}
+                            color="success.main"
+                            sx={{ mt: 1 }}
+                        >
+                            {formatRupees(monthlyIncome)}
+                        </Typography>
+                    </Grid>
+
+                    <Grid size={{ xs: 12, sm: 4 }}>
+                        <Typography variant="body2" color="text.secondary">
+                            Monthly Expenses
+                        </Typography>
+
+                        <Typography
+                            variant="h5"
+                            fontWeight={700}
+                            color="error.main"
+                            sx={{ mt: 1 }}
+                        >
+                            {formatRupees(monthlyExpenses)}
+                        </Typography>
+                    </Grid>
+
+                    <Grid size={{ xs: 12, sm: 4 }}>
+                        <Typography variant="body2" color="text.secondary">
+                            Monthly Net Savings
+                        </Typography>
+
+                        <Typography
+                            variant="h5"
+                            fontWeight={700}
+                            color={monthlySavings < 0 ? "error.main" : "success.main"}
+                            sx={{ mt: 1 }}
+                        >
+                            {formatRupees(monthlySavings)}
+                        </Typography>
+                    </Grid>
+                </Grid>
+            </Paper>
 
             {/* Income versus expenses chart */}
             <Box sx={{ mb: 3 }}>
