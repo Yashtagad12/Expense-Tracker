@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 import {
     Box,
     Paper,
@@ -5,121 +7,143 @@ import {
 } from "@mui/material";
 
 import {
-    ResponsiveContainer,
-    BarChart,
     Bar,
+    BarChart,
+    CartesianGrid,
+    Legend,
+    ResponsiveContainer,
+    Tooltip,
     XAxis,
     YAxis,
-    CartesianGrid,
-    Tooltip,
-    Legend,
 } from "recharts";
-
-const monthlyData = [
-    { month: "May", income: 42000, expenses: 27000 },
-    { month: "Jun", income: 48000, expenses: 31000 },
-    { month: "Jul", income: 45000, expenses: 29000 },
-    { month: "Aug", income: 52000, expenses: 34000 },
-    { month: "Sep", income: 50000, expenses: 32000 },
-    { month: "Oct", income: 58000, expenses: 19400 },
-];
 
 function formatRupees(value) {
     return `₹${Number(value).toLocaleString("en-IN")}`;
 }
 
-function ExpenseChart() {
+function getLastSixMonths() {
+    const months = [];
+    const currentDate = new Date();
+
+    for (let offset = 5; offset >= 0; offset -= 1) {
+        const date = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth() - offset,
+            1
+        );
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+
+        months.push({
+            key: `${year}-${month}`,
+            label: date.toLocaleDateString("en-IN", {
+                month: "short",
+                year: "numeric",
+            }),
+        });
+    }
+
+    return months;
+}
+
+function ExpenseChart({ transactions = [] }) {
+    const monthlyData = useMemo(() => {
+        const months = getLastSixMonths();
+
+        return months.map((month) => {
+            const monthTransactions = transactions.filter(
+                (transaction) =>
+                    transaction.date.startsWith(month.key)
+            );
+
+            const income = monthTransactions
+                .filter((transaction) => transaction.type === "income")
+                .reduce((total, transaction) => total + transaction.amount, 0);
+
+            const expenses = monthTransactions
+                .filter((transaction) => transaction.type === "expense")
+                .reduce((total, transaction) => total + transaction.amount, 0);
+
+            return {
+                month: month.label,
+                income,
+                expenses,
+            };
+        });
+    }, [transactions]);
+
     return (
         <Paper
             elevation={0}
             sx={{
                 p: { xs: 2, sm: 3 },
-                height: "100%",
+                border: "1px solid",
+                borderColor: "divider",
                 borderRadius: 3,
-                minWidth: 0,
             }}
         >
-            {/* Chart heading */}
             <Box sx={{ mb: 3 }}>
-                <Typography variant="h6" sx={{ mb: 0.5 }}>
+                <Typography variant="h6" fontWeight={700}>
                     Income vs Expenses
                 </Typography>
 
                 <Typography variant="body2" color="text.secondary">
-                    Your financial activity over the last six months
+                    Your actual recorded transactions over the last six months.
                 </Typography>
             </Box>
 
-            {/* Responsive chart */}
-            <Box sx={{ width: "100%", height: { xs: 260, sm: 310 } }}>
+            <Box sx={{ width: "100%", height: { xs: 280, sm: 330 } }}>
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart
                         data={monthlyData}
                         margin={{
                             top: 8,
-                            right: 4,
-                            left: -16,
-                            bottom: 0,
+                            right: 8,
+                            left: 8,
+                            bottom: 8,
                         }}
-                        barGap={5}
                     >
                         <CartesianGrid
-                            stroke="#E7ECE9"
-                            strokeDasharray="4 4"
+                            strokeDasharray="3 3"
                             vertical={false}
                         />
 
                         <XAxis
                             dataKey="month"
-                            axisLine={false}
-                            tickLine={false}
-                            tick={{ fill: "#718078", fontSize: 12 }}
-                            tickMargin={10}
+                            tick={{ fontSize: 12 }}
                         />
 
                         <YAxis
-                            axisLine={false}
-                            tickLine={false}
-                            tick={{ fill: "#718078", fontSize: 11 }}
-                            tickFormatter={(value) => `₹${value / 1000}k`}
-                            width={52}
+                            tickFormatter={(value) =>
+                                value >= 1000
+                                    ? `₹${value / 1000}k`
+                                    : `₹${value}`
+                            }
+                            tick={{ fontSize: 12 }}
+                            width={60}
                         />
 
                         <Tooltip
-                            formatter={(value, name) => [
+                            formatter={(value) => [
                                 formatRupees(value),
-                                name === "income" ? "Income" : "Expenses",
                             ]}
-                            contentStyle={{
-                                borderRadius: 12,
-                                border: "1px solid #E7ECE9",
-                                boxShadow: "0 4px 16px rgba(23, 43, 36, 0.08)",
-                            }}
                         />
 
-                        <Legend
-                            verticalAlign="bottom"
-                            height={36}
-                            iconType="circle"
-                            formatter={(value) =>
-                                value === "income" ? "Income" : "Expenses"
-                            }
-                        />
+                        <Legend />
 
                         <Bar
                             dataKey="income"
-                            name="income"
+                            name="Income"
                             fill="#16845B"
-                            radius={[5, 5, 0, 0]}
-                            maxBarSize={28}
+                            radius={[4, 4, 0, 0]}
                         />
 
                         <Bar
                             dataKey="expenses"
-                            name="expenses"
+                            name="Expenses"
                             fill="#A9C9B8"
-                            radius={[5, 5, 0, 0]}
-                            maxBarSize={28}
+                            radius={[4, 4, 0, 0]}
                         />
                     </BarChart>
                 </ResponsiveContainer>
