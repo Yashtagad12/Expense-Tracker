@@ -153,10 +153,12 @@ function Budgets() {
             {/* Page heading and month selector */}
             <Stack
                 direction={{ xs: "column", sm: "row" }}
-                justifyContent="space-between"
-                alignItems={{ xs: "stretch", sm: "center" }}
                 spacing={2}
-                sx={{ mb: 3 }}
+                sx={{
+                    mb: 3,
+                    justifyContent: "space-between",
+                    alignItems: { xs: "stretch", sm: "center" },
+                }}
             >
                 <Box>
                     <Typography variant="h4" fontWeight={700}>
@@ -218,7 +220,7 @@ function Budgets() {
                             borderRadius: 3,
                         }}
                     >
-                        <Stack direction="row" spacing={1.5} alignItems="center">
+                        <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
                             <AccountBalanceWalletOutlined color="primary" />
 
                             <Typography color="text.secondary">
@@ -242,7 +244,7 @@ function Budgets() {
                             borderRadius: 3,
                         }}
                     >
-                        <Stack direction="row" spacing={1.5} alignItems="center">
+                        <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
                             <TrendingDown color="error" />
 
                             <Typography color="text.secondary">
@@ -266,7 +268,7 @@ function Budgets() {
                             borderRadius: 3,
                         }}
                     >
-                        <Stack direction="row" spacing={1.5} alignItems="center">
+                        <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
                             <SavingsOutlined
                                 color={totalRemaining < 0 ? "error" : "success"}
                             />

@@ -274,11 +274,14 @@ function Reports() {
             {/* Page heading and month filter */}
             <Stack
                 direction={{ xs: "column", sm: "row" }}
-                justifyContent="space-between"
-                alignItems={{ xs: "stretch", sm: "center" }}
                 spacing={2}
-                sx={{ mb: 3 }}
+                sx={{
+                    mb: 3,
+                    justifyContent: "center",
+                    alignItems: { xs: "flex-start", sm: "center" },
+                }}
             >
+
                 <Box>
                     <Typography variant="h4" fontWeight={800}>
                         Reports & Analytics
@@ -315,7 +318,7 @@ function Reports() {
                         variant="contained"
                         startIcon={<DownloadOutlined />}
                         onClick={handleExportCSV}
-                        sx={{ whiteSpace: "nowrap" }}
+                        sx={{ whiteSpace: "nowrap", p: "10px 16px" }}
                     >
                         Export CSV
                     </Button>

@@ -271,10 +271,12 @@ function Transactions() {
             {/* Page heading */}
             <Stack
                 direction={{ xs: "column", sm: "row" }}
-                justifyContent="space-between"
-                alignItems={{ xs: "stretch", sm: "center" }}
                 spacing={2}
-                sx={{ mb: 3 }}
+                sx={{
+                    mb: 3,
+                    justifyContent: "space-between",
+                    alignItems: { xs: "stretch", sm: "center" },
+                }}
             >
                 <Box>
                     <Typography variant="h4" fontWeight={700}>
@@ -309,9 +311,8 @@ function Transactions() {
             >
                 <Stack
                     direction="row"
-                    alignItems="center"
                     spacing={1}
-                    sx={{ mb: 2 }}
+                    sx={{ mb: 2, alignItems: "center" }}
                 >
                     <FilterList color="action" />
 
@@ -454,7 +455,7 @@ function Transactions() {
                         {sortedTransactions.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={6}>
-                                    <Stack alignItems="center" spacing={1} sx={{ py: 6 }}>
+                                    <Stack spacing={1} sx={{ py: 6, alignItems: "center" }}>
                                         <ReceiptLongOutlined
                                             sx={{ fontSize: 42, color: "text.secondary" }}
                                         />
@@ -530,8 +531,8 @@ function Transactions() {
                                     <TableCell align="center">
                                         <Stack
                                             direction="row"
-                                            justifyContent="center"
                                             spacing={0.5}
+                                            sx={{ justifyContent: "center" }}
                                         >
                                             <IconButton
                                                 aria-label={`Edit ${transaction.title}`}
@@ -559,15 +560,9 @@ function Transactions() {
                 </Table>
             </TableContainer>
 
-            <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ mt: 2 }}
-            >
-                <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-                    Showing {sortedTransactions.length} of {transactions.length}{" "}
-                    {transactions.length === 1 ? "transaction" : "transactions"}
-                </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+                Showing {sortedTransactions.length} of {transactions.length}{" "}
+                {transactions.length === 1 ? "transaction" : "transactions"}
             </Typography>
             {/* Add/Edit Transaction Dialog */}
             <Dialog
