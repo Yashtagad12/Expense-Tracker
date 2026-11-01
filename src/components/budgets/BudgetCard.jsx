@@ -63,9 +63,11 @@ function BudgetCard({
             <CardContent sx={{ p: 2.5 }}>
                 <Stack
                     direction="row"
-                    justifyContent="space-between"
-                    alignItems="flex-start"
                     spacing={1}
+                    sx={{
+                        justifyContent: "space-between",
+                        alignItems: "flex-start",
+                    }}
                 >
                     <Box>
                         <Typography variant="h6" fontWeight={700}>
@@ -121,8 +123,10 @@ function BudgetCard({
 
                 <Stack
                     direction="row"
-                    justifyContent="space-between"
-                    alignItems="center"
+                    sx={{
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                    }}
                 >
                     <Typography variant="body2" color="text.secondary">
                         {percentage.toFixed(1)}% used
@@ -143,8 +147,7 @@ function BudgetCard({
                     <Stack
                         direction="row"
                         spacing={0.75}
-                        alignItems="center"
-                        sx={{ mt: 2 }}
+                        sx={{ mt: 2, alignItems: "center" }}
                     >
                         <WarningAmberOutlined
                             fontSize="small"

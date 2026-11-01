@@ -14,9 +14,11 @@ function ReportSummaryCard({ title, amount, description, icon, color }) {
         >
             <Stack
                 direction="row"
-                justifyContent="space-between"
-                alignItems="flex-start"
                 spacing={2}
+                sx={{
+                    justifyContent: "space-between",
+                    alignItems: "flex-start",
+                }}
             >
                 <Box>
                     <Typography color="text.secondary" variant="body2">

@@ -119,15 +119,16 @@ function ExpenseCategoryChart({ data }) {
                                     <Stack
                                         key={item.category}
                                         direction="row"
-                                        alignItems="center"
-                                        justifyContent="space-between"
                                         spacing={2}
+                                        sx={{
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                        }}
                                     >
                                         <Stack
                                             direction="row"
-                                            alignItems="center"
                                             spacing={1}
-                                            sx={{ minWidth: 0 }}
+                                            sx={{ minWidth: 0, alignItems: "center" }}
                                         >
                                             <Box
                                                 sx={{
