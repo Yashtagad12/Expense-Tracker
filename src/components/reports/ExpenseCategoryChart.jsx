@@ -3,6 +3,7 @@ import {
     Paper,
     Stack,
     Typography,
+    useTheme,
 } from "@mui/material";
 
 import {
@@ -34,6 +35,7 @@ function formatRupees(amount) {
 }
 
 function ExpenseCategoryChart({ data }) {
+    const theme = useTheme();
     const hasExpenses = data.some((item) => item.amount > 0);
 
     return (
@@ -102,6 +104,11 @@ function ExpenseCategoryChart({ data }) {
 
                                 <Tooltip
                                     formatter={(value) => formatRupees(Number(value))}
+                                    contentStyle={{
+                                        backgroundColor: theme.palette.background.paper,
+                                        borderColor: theme.palette.divider,
+                                        color: theme.palette.text.primary,
+                                    }}
                                 />
                             </PieChart>
                         </ResponsiveContainer>

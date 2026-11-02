@@ -122,8 +122,8 @@ function RecentTransactions({ transactions = initialTransactions }) {
                                         width: 42,
                                         height: 42,
                                         flexShrink: 0,
-                                        bgcolor: isIncome ? "#E3F5EC" : "#F2F4F3",
-                                        color: isIncome ? "#16845B" : "#64748B",
+                                        bgcolor: isIncome ? "success.light" : "action.hover",
+                                        color: isIncome ? "success.main" : "text.secondary",
                                     }}
                                 >
                                     {categoryIcons[transaction.category] || (

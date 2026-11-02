@@ -75,7 +75,7 @@ function Sidebar({ mobileOpen, onClose }) {
                         placeItems: "center",
                         borderRadius: 2.5,
                         bgcolor: "primary.main",
-                        color: "#FFFFFF",
+                        color: "primary.contrastText",
                     }}
                 >
                     <AccountBalanceWalletRoundedIcon />
@@ -185,8 +185,9 @@ function Sidebar({ mobileOpen, onClose }) {
                 sx={{
                     p: 2,
                     borderRadius: 3,
-                    bgcolor: "#F0F8F3",
-                    border: "1px solid #DDEFE4",
+                    bgcolor: "secondary.light",
+                    border: "1px solid",
+                    borderColor: "divider",
                     mb: 2,
                 }}
             >

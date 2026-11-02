@@ -4,6 +4,7 @@ import {
     Box,
     Paper,
     Typography,
+    useTheme,
 } from "@mui/material";
 
 import {
@@ -48,6 +49,17 @@ function getLastSixMonths() {
 }
 
 function ExpenseChart({ transactions = [] }) {
+    const theme = useTheme();
+    const incomeColor = theme.palette.success.main;
+    const expenseColor = theme.palette.mode === "light" ? "#A9C9B8" : "#FF8092";
+    const axisColor = theme.palette.text.secondary;
+    const gridColor = theme.palette.divider;
+    const tooltipStyles = {
+        backgroundColor: theme.palette.background.paper,
+        borderColor: theme.palette.divider,
+        color: theme.palette.text.primary,
+    };
+
     const monthlyData = useMemo(() => {
         const months = getLastSixMonths();
 
@@ -107,11 +119,12 @@ function ExpenseChart({ transactions = [] }) {
                         <CartesianGrid
                             strokeDasharray="3 3"
                             vertical={false}
+                            stroke={gridColor}
                         />
 
                         <XAxis
                             dataKey="month"
-                            tick={{ fontSize: 12 }}
+                            tick={{ fontSize: 12, fill: axisColor }}
                         />
 
                         <YAxis
@@ -120,7 +133,7 @@ function ExpenseChart({ transactions = [] }) {
                                     ? `₹${value / 1000}k`
                                     : `₹${value}`
                             }
-                            tick={{ fontSize: 12 }}
+                            tick={{ fontSize: 12, fill: axisColor }}
                             width={60}
                         />
 
@@ -128,6 +141,7 @@ function ExpenseChart({ transactions = [] }) {
                             formatter={(value) => [
                                 formatRupees(value),
                             ]}
+                            contentStyle={tooltipStyles}
                         />
 
                         <Legend />
@@ -135,14 +149,14 @@ function ExpenseChart({ transactions = [] }) {
                         <Bar
                             dataKey="income"
                             name="Income"
-                            fill="#16845B"
+                            fill={incomeColor}
                             radius={[4, 4, 0, 0]}
                         />
 
                         <Bar
                             dataKey="expenses"
                             name="Expenses"
-                            fill="#A9C9B8"
+                            fill={expenseColor}
                             radius={[4, 4, 0, 0]}
                         />
                     </BarChart>

@@ -42,7 +42,9 @@ function Header({ onMenuClick }) {
             color="transparent"
             elevation={0}
             sx={{
-                bgcolor: "rgba(255, 255, 255, 0.92)",
+                bgcolor: mode === "light"
+                    ? "rgba(255, 255, 255, 0.92)"
+                    : "rgba(25, 30, 42, 0.92)",
                 backdropFilter: "blur(12px)",
                 borderBottom: "1px solid",
                 borderColor: "divider",
@@ -99,7 +101,7 @@ function Header({ onMenuClick }) {
                         width: { xs: 112, sm: 190, md: 220 },
                         "& .MuiOutlinedInput-root": {
                             borderRadius: 2.5,
-                            bgcolor: "#F7F9F8",
+                            bgcolor: "background.paper",
                             fontSize: "0.875rem",
                         },
                     }}

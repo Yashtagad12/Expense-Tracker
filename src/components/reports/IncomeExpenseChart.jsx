@@ -2,6 +2,7 @@ import {
     Box,
     Paper,
     Typography,
+    useTheme,
 } from "@mui/material";
 
 import {
@@ -24,6 +25,12 @@ function formatRupees(amount) {
 }
 
 function IncomeExpenseChart({ data }) {
+    const theme = useTheme();
+    const axisColor = theme.palette.text.secondary;
+    const gridColor = theme.palette.divider;
+    const incomeColor = theme.palette.success.main;
+    const expenseColor = theme.palette.error.main;
+
     return (
         <Paper
             elevation={0}
@@ -48,11 +55,11 @@ function IncomeExpenseChart({ data }) {
                         data={data}
                         margin={{ top: 10, right: 10, left: 10, bottom: 5 }}
                     >
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={gridColor} />
 
                         <XAxis
                             dataKey="month"
-                            tick={{ fontSize: 12 }}
+                            tick={{ fontSize: 12, fill: axisColor }}
                             axisLine={false}
                             tickLine={false}
                         />
@@ -64,7 +71,7 @@ function IncomeExpenseChart({ data }) {
                                     maximumFractionDigits: 1,
                                 }).format(value)
                             }
-                            tick={{ fontSize: 12 }}
+                            tick={{ fontSize: 12, fill: axisColor }}
                             axisLine={false}
                             tickLine={false}
                             width={55}
@@ -72,6 +79,11 @@ function IncomeExpenseChart({ data }) {
 
                         <Tooltip
                             formatter={(value) => formatRupees(Number(value))}
+                            contentStyle={{
+                                backgroundColor: theme.palette.background.paper,
+                                borderColor: theme.palette.divider,
+                                color: theme.palette.text.primary,
+                            }}
                         />
 
                         <Legend />
@@ -79,14 +91,14 @@ function IncomeExpenseChart({ data }) {
                         <Bar
                             dataKey="income"
                             name="Income"
-                            fill="#16845B"
+                            fill={incomeColor}
                             radius={[5, 5, 0, 0]}
                         />
 
                         <Bar
                             dataKey="expenses"
                             name="Expenses"
-                            fill="#E45B78"
+                            fill={expenseColor}
                             radius={[5, 5, 0, 0]}
                         />
                     </BarChart>

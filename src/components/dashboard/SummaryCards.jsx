@@ -28,7 +28,7 @@ function SummaryCard({
 
                 "&:hover": {
                     transform: "translateY(-3px)",
-                    boxShadow: "0 8px 24px rgba(23, 43, 36, 0.07)",
+                    boxShadow: "0 8px 24px rgba(82, 103, 222, 0.12)",
                 },
             }}
         >

@@ -17,6 +17,7 @@ import {
     TableHead,
     TableRow,
     Typography,
+    useTheme,
 } from "@mui/material";
 
 import {
@@ -123,6 +124,7 @@ function downloadCSV(rows, filename) {
 
 function Reports() {
     const { transactions } = useTransactions();
+    const theme = useTheme();
 
     const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth);
 
@@ -350,7 +352,7 @@ function Reports() {
                     amount={formatRupees(monthlyIncome)}
                     description={`Income in ${formatMonth(selectedMonth)}`}
                     icon={<TrendingUp />}
-                    color="#16845B"
+                    color={theme.palette.success.main}
                 />
 
                 <ReportSummaryCard
@@ -358,7 +360,7 @@ function Reports() {
                     amount={formatRupees(monthlyExpenses)}
                     description={`Expenses in ${formatMonth(selectedMonth)}`}
                     icon={<TrendingDown />}
-                    color="#E45B78"
+                    color={theme.palette.error.main}
                 />
 
                 <ReportSummaryCard
@@ -372,7 +374,7 @@ function Reports() {
                             <AccountBalanceWalletOutlined />
                         )
                     }
-                    color={netSavings >= 0 ? "#6478E8" : "#D97706"}
+                    color={netSavings >= 0 ? theme.palette.primary.main : theme.palette.warning.main}
                 />
             </Box>
 

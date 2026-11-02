@@ -62,10 +62,14 @@ export function ColorModeProvider({ children }) {
 
                     primary: {
                         main: mode === "light" ? "#5267DE" : "#9AA8FF",
+                        light: mode === "light" ? "#EEF0FF" : "#29304E",
+                        dark: mode === "light" ? "#3D4FB3" : "#C5CCFF",
                     },
 
                     secondary: {
                         main: mode === "light" ? "#16845B" : "#69D5A8",
+                        light: mode === "light" ? "#E3F5EC" : "#213A32",
+                        dark: mode === "light" ? "#106B49" : "#A2E3C7",
                     },
 
                     background: {
@@ -73,22 +77,39 @@ export function ColorModeProvider({ children }) {
                         paper: mode === "light" ? "#FFFFFF" : "#191E2A",
                     },
 
+                    text: {
+                        primary: mode === "light" ? "#172B24" : "#F2F5F4",
+                        secondary: mode === "light" ? "#718078" : "#ABB5B0",
+                    },
+
                     success: {
                         main: mode === "light" ? "#16845B" : "#69D5A8",
+                        light: mode === "light" ? "#E3F5EC" : "#213A32",
                     },
 
                     error: {
                         main: mode === "light" ? "#D1435B" : "#FF8092",
+                        light: mode === "light" ? "#FDEAF0" : "#43252D",
                     },
 
                     warning: {
                         main: mode === "light" ? "#B7791F" : "#FFC66D",
+                        light: mode === "light" ? "#FFF4D6" : "#443820",
                     },
 
                     divider:
                         mode === "light"
                             ? "rgba(25, 35, 60, 0.12)"
                             : "rgba(255, 255, 255, 0.12)",
+
+                    action: {
+                        hover: mode === "light"
+                            ? "rgba(82, 103, 222, 0.08)"
+                            : "rgba(154, 168, 255, 0.12)",
+                        selected: mode === "light"
+                            ? "rgba(82, 103, 222, 0.14)"
+                            : "rgba(154, 168, 255, 0.18)",
+                    },
                 },
 
                 shape: {

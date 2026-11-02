@@ -129,7 +129,7 @@ function BudgetDialogForm({
                             {errors.category && (
                                 <span
                                     style={{
-                                        color: "#d32f2f",
+                                        color: "error.main",
                                         fontSize: "0.75rem",
                                         marginTop: 5,
                                         marginLeft: 14,
