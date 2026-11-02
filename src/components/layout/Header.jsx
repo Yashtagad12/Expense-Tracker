@@ -10,6 +10,13 @@ import {
     Typography,
 } from "@mui/material";
 
+
+import {
+    DarkModeOutlined,
+    LightModeOutlined,
+} from "@mui/icons-material";
+
+import { useColorMode } from "../../context/ColorModeContext";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
@@ -26,6 +33,8 @@ function Header({ onMenuClick }) {
     };
 
     const currentTitle = pageTitles[location.pathname] || "Finora";
+
+    const { mode, toggleColorMode } = useColorMode();
 
     return (
         <AppBar
@@ -118,6 +127,22 @@ function Header({ onMenuClick }) {
                         }}
                     >
                         <NotificationsNoneRoundedIcon />
+                    </IconButton>
+                </Tooltip>
+
+                <Tooltip
+                    title={mode === "light" ? "Switch to dark mode" : "Switch to light mode"}
+                >
+                    <IconButton
+                        onClick={toggleColorMode}
+                        color="inherit"
+                        aria-label={
+                            mode === "light"
+                                ? "Switch to dark mode"
+                                : "Switch to light mode"
+                        }
+                    >
+                        {mode === "light" ? <DarkModeOutlined /> : <LightModeOutlined />}
                     </IconButton>
                 </Tooltip>
 
