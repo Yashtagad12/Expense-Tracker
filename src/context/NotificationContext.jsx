@@ -65,6 +65,9 @@ export function NotificationProvider({ children }) {
     );
 }
 
+
+// A custom hook for accessing the transaction context.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useNotification() {
     const context = useContext(NotificationContext);
 
