@@ -28,6 +28,7 @@ import { useBudgets } from "../context/BudgetContext";
 
 import BudgetCard from "../components/budgets/BudgetCard";
 import BudgetDialog from "../components/budgets/BudgetDialog";
+import { useNotification } from "../context/NotificationContext";
 
 const expenseCategories = [
     "Housing",
@@ -133,8 +134,18 @@ function Budgets() {
                 ...editingBudget,
                 limit: budgetData.limit,
             });
+
+            showNotification(
+                "Budget updated successfully.",
+                "success"
+            );
         } else {
             addBudget(budgetData);
+
+            showNotification(
+                "Budget created successfully.",
+                "success"
+            );
         }
 
         setDialogOpen(false);
@@ -144,9 +155,15 @@ function Budgets() {
     const handleConfirmDelete = () => {
         if (deleteTarget) {
             deleteBudget(deleteTarget.id);
+            showNotification(
+                "Budget deleted successfully.",
+                "success"
+            );
             setDeleteTarget(null);
         }
     };
+
+    const { showNotification } = useNotification();
 
     return (
         <Box>
